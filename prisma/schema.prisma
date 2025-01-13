@@ -20,6 +20,7 @@ model user {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   refresh_token refresh_token?
+  allowed_origins allowed_origins[]
 }
 
 model refresh_token {
@@ -32,8 +33,9 @@ model refresh_token {
 }
 
 model allowed_origins {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(cuid())
   origin    String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  users user[]
 }
