@@ -19,7 +19,7 @@ export class OriginService {
     });
   }
 
-  async getOriginId(origin: string) {
+  async getOriginIdByPath(origin: string) {
     return this.prismaService.allowed_origins.findUnique({
       where: {
         origin: origin,
@@ -30,4 +30,26 @@ export class OriginService {
       },
     });
   }
+
+  async getOriginById(originId: string) {
+    return this.prismaService.allowed_origins.findUnique({
+      where: {
+        id: originId,
+      },
+      select: {
+        id: true,
+        origin: true,
+      },
+    });
+  }
+
+  // async checkOrigin(originId: string, redirectOrigin: string) {
+  //   const origin = await this.prismaService.allowed_origins.findUnique({
+  //     where: {
+  //       id: originId,
+  //     },
+  //   });
+
+  //   return origin.origin === redirectOrigin;
+  // }
 }

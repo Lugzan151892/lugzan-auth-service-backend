@@ -21,6 +21,7 @@ model user {
   updated_at DateTime @updatedAt
   refresh_token refresh_token?
   allowed_origins allowed_origins[]
+  auth_code auth_code?
 }
 
 model refresh_token {
@@ -38,4 +39,14 @@ model allowed_origins {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   users user[]
+  auth_codes auth_code[]
+}
+
+model auth_code {
+  id Int @id @default(autoincrement())
+  auth_code String @unique @default(uuid())
+  origin allowed_origins @relation(fields: [origin_id], references: [id])
+  origin_id String @unique
+  user user @relation(fields: [user_id], references: [id])
+  user_id Int @unique
 }
