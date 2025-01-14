@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Post,
-  Headers,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Headers } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OriginService } from './origin.service';
 
@@ -14,7 +6,7 @@ import { OriginService } from './origin.service';
 export class OriginController {
   constructor(
     private readonly originService: OriginService,
-    private configService: ConfigService,
+    private configService: ConfigService
   ) {}
 
   private get originPassword() {
@@ -33,14 +25,11 @@ export class OriginController {
   }
 
   @Get('origin')
-  async getOriginId(
-    @Headers('origin') origin: string,
-    @Headers('referer') referer: string,
-  ) {
+  async getOriginId(@Headers('origin') origin: string, @Headers('referer') referer: string) {
     if (!origin && !referer) {
       throw new HttpException('Origin not found', HttpStatus.FORBIDDEN);
     }
 
-    return this.originService.getOriginId(origin || referer);
+    return this.originService.getOriginIdByPath(origin || referer);
   }
 }
